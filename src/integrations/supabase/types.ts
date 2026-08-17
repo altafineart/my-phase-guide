@@ -14,7 +14,108 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      entitlements: {
+        Row: {
+          ativo: boolean
+          created_at: string
+          id: string
+          origem_kiwify_order_id: string | null
+          produto: string
+          user_id: string
+        }
+        Insert: {
+          ativo?: boolean
+          created_at?: string
+          id?: string
+          origem_kiwify_order_id?: string | null
+          produto?: string
+          user_id: string
+        }
+        Update: {
+          ativo?: boolean
+          created_at?: string
+          id?: string
+          origem_kiwify_order_id?: string | null
+          produto?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          fase_menopausa: string | null
+          id: string
+          idade: number | null
+          onboarding_completo: boolean
+          sintomas_predominantes: Json
+          ultima_menstruacao: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          fase_menopausa?: string | null
+          id: string
+          idade?: number | null
+          onboarding_completo?: boolean
+          sintomas_predominantes?: Json
+          ultima_menstruacao?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          fase_menopausa?: string | null
+          id?: string
+          idade?: number | null
+          onboarding_completo?: boolean
+          sintomas_predominantes?: Json
+          ultima_menstruacao?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      registros_diario: {
+        Row: {
+          calorao: boolean
+          created_at: string
+          data: string
+          energia: number
+          humor: number
+          id: string
+          intensidade_calorao: number
+          sono: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          calorao?: boolean
+          created_at?: string
+          data?: string
+          energia?: number
+          humor?: number
+          id?: string
+          intensidade_calorao?: number
+          sono?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          calorao?: boolean
+          created_at?: string
+          data?: string
+          energia?: number
+          humor?: number
+          id?: string
+          intensidade_calorao?: number
+          sono?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
