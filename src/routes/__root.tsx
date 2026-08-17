@@ -77,11 +77,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Guia de Menopausa" },
+      {
+        name: "description",
+        content:
+          "Relatório personalizado e diário de sintomas para mulheres na perimenopausa, menopausa e pós-menopausa.",
+      },
+      { property: "og:title", content: "Guia de Menopausa" },
+      {
+        property: "og:description",
+        content: "Relatório personalizado e diário de sintomas da menopausa.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },
