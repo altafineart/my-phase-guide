@@ -43,7 +43,7 @@ function Comecar() {
       if (!auth.user) throw new Error("Sessão expirada");
       const { error } = await supabase.from("profiles").upsert({
         id: auth.user.id,
-        email: auth.user.email,
+        email: auth.user.email ?? null,
         idade: idade ? Number(idade) : null,
         fase_menopausa: fase,
         ultima_menstruacao: ultima || null,

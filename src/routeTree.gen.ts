@@ -12,7 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as EntrarRouteImport } from './routes/entrar'
+import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
 import { Route as AuthenticatedComecarRouteImport } from './routes/_authenticated/comecar'
+import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
+import { Route as AuthenticatedAppDiarioRouteImport } from './routes/_authenticated/app.diario'
+import { Route as AuthenticatedAppRelatorioRouteImport } from './routes/_authenticated/app.relatorio'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,36 +32,83 @@ const EntrarRoute = EntrarRouteImport.update({
   path: '/entrar',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedComecarRoute = AuthenticatedComecarRouteImport.update({
   id: '/comecar',
   path: '/comecar',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAppRoute,
+} as any)
+const AuthenticatedAppDiarioRoute = AuthenticatedAppDiarioRouteImport.update({
+  id: '/diario',
+  path: '/diario',
+  getParentRoute: () => AuthenticatedAppRoute,
+} as any)
+const AuthenticatedAppRelatorioRoute =
+  AuthenticatedAppRelatorioRouteImport.update({
+    id: '/relatorio',
+    path: '/relatorio',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/entrar': typeof EntrarRoute
+  '/app': typeof AuthenticatedAppRouteWithChildren
   '/comecar': typeof AuthenticatedComecarRoute
+  '/app/diario': typeof AuthenticatedAppDiarioRoute
+  '/app/relatorio': typeof AuthenticatedAppRelatorioRoute
+  '/app/': typeof AuthenticatedAppIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/entrar': typeof EntrarRoute
   '/comecar': typeof AuthenticatedComecarRoute
+  '/app/diario': typeof AuthenticatedAppDiarioRoute
+  '/app/relatorio': typeof AuthenticatedAppRelatorioRoute
+  '/app': typeof AuthenticatedAppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/entrar': typeof EntrarRoute
+  '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
   '/_authenticated/comecar': typeof AuthenticatedComecarRoute
+  '/_authenticated/app/diario': typeof AuthenticatedAppDiarioRoute
+  '/_authenticated/app/relatorio': typeof AuthenticatedAppRelatorioRoute
+  '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/entrar' | '/comecar'
+  fullPaths:
+    | '/'
+    | '/entrar'
+    | '/app'
+    | '/comecar'
+    | '/app/diario'
+    | '/app/relatorio'
+    | '/app/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/entrar' | '/comecar'
+  to: '/' | '/entrar' | '/comecar' | '/app/diario' | '/app/relatorio' | '/app'
   id:
-    '__root__' | '/' | '/_authenticated' | '/entrar' | '/_authenticated/comecar'
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/entrar'
+    | '/_authenticated/app'
+    | '/_authenticated/comecar'
+    | '/_authenticated/app/diario'
+    | '/_authenticated/app/relatorio'
+    | '/_authenticated/app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -89,6 +140,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EntrarRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/app': {
+      id: '/_authenticated/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AuthenticatedAppRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/comecar': {
       id: '/_authenticated/comecar'
       path: '/comecar'
@@ -96,14 +154,52 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedComecarRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/app/': {
+      id: '/_authenticated/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AuthenticatedAppIndexRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/diario': {
+      id: '/_authenticated/app/diario'
+      path: '/diario'
+      fullPath: '/app/diario'
+      preLoaderRoute: typeof AuthenticatedAppDiarioRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/relatorio': {
+      id: '/_authenticated/app/relatorio'
+      path: '/relatorio'
+      fullPath: '/app/relatorio'
+      preLoaderRoute: typeof AuthenticatedAppRelatorioRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
   }
 }
 
+interface AuthenticatedAppRouteChildren {
+  AuthenticatedAppDiarioRoute: typeof AuthenticatedAppDiarioRoute
+  AuthenticatedAppRelatorioRoute: typeof AuthenticatedAppRelatorioRoute
+  AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
+}
+
+const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
+  AuthenticatedAppDiarioRoute: AuthenticatedAppDiarioRoute,
+  AuthenticatedAppRelatorioRoute: AuthenticatedAppRelatorioRoute,
+  AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
+}
+
+const AuthenticatedAppRouteWithChildren =
+  AuthenticatedAppRoute._addFileChildren(AuthenticatedAppRouteChildren)
+
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAppRoute: typeof AuthenticatedAppRouteWithChildren
   AuthenticatedComecarRoute: typeof AuthenticatedComecarRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAppRoute: AuthenticatedAppRouteWithChildren,
   AuthenticatedComecarRoute: AuthenticatedComecarRoute,
 }
 
