@@ -44,7 +44,7 @@ export function porMes(registros: Registro[]): PontoMensal[] {
   return [...grupos.entries()]
     .sort((a, b) => a[0].localeCompare(b[0]))
     .map(([chave, itens]) => {
-      const [ano, mes] = chave.split("-");
+      const [ano = "", mes = "1"] = chave.split("-");
       const num = (v: number | null) => Number((v ?? 0).toFixed(1));
       return {
         chave,
