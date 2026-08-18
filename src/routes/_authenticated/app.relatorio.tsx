@@ -1,10 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { Download } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { usePerfil } from "@/hooks/use-perfil";
-import { montarRelatorio } from "@/lib/relatorio";
+import { montarRelatorio, relatorioParaHtml } from "@/lib/relatorio";
+import { exportarPDF } from "@/lib/exportar";
 import { rotuloFase, inicioJanelaVisivel, isoData } from "@/lib/menopausa";
 import { padroesRecentes, type Registro } from "@/lib/padroes";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -64,6 +67,18 @@ function Relatorio() {
           Montado a partir das suas respostas. Este conteúdo é informativo e não substitui
           avaliação médica individual.
         </p>
+        <Button
+          className="mt-4 rounded-2xl"
+          onClick={() =>
+            perfil &&
+            exportarPDF(
+              "Guia de Menopausa — relatório personalizado",
+              relatorioParaHtml(perfil, secoes, padroes),
+            )
+          }
+        >
+          <Download className="size-4" /> Exportar guia em PDF
+        </Button>
       </header>
 
       {padroes.length > 0 && (
@@ -85,7 +100,17 @@ function Relatorio() {
         <section key={secao.id} className="space-y-4">
           <h2 className="text-xl font-semibold">{secao.titulo}</h2>
           {secao.blocos.map((bloco) => (
-            <Card key={bloco.id} className="rounded-3xl border-border/60 sombra-card">
+            <Card key={bloco.id} className="overflow-hidden rounded-3xl border-border/60 sombra-card">
+              {bloco.imagem && (
+                <img
+                  src={bloco.imagem}
+                  alt={bloco.titulo}
+                  loading="lazy"
+                  width={1024}
+                  height={640}
+                  className="h-44 w-full object-cover sm:h-56"
+                />
+              )}
               <CardContent className="space-y-3 p-6">
                 <h3 className="font-medium">{bloco.titulo}</h3>
                 {bloco.paragrafos.map((p, i) => (
@@ -93,6 +118,16 @@ function Relatorio() {
                     {p}
                   </p>
                 ))}
+                {bloco.lista && (
+                  <ul className="space-y-1.5 pt-1 text-sm leading-relaxed text-muted-foreground">
+                    {bloco.lista.map((item) => (
+                      <li key={item} className="flex gap-2">
+                        <span className="text-primary">•</span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </CardContent>
             </Card>
           ))}
