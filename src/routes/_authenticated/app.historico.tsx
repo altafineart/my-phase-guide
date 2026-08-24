@@ -192,15 +192,15 @@ function Historico() {
               <div className="h-64 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={meses}>
-                    <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.3} />
-                    <XAxis dataKey="rotulo" fontSize={11} />
-                    <YAxis domain={[0, 5]} fontSize={11} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                    <XAxis dataKey="rotulo" tick={{ fontSize: 12 }} stroke="var(--muted-foreground)" />
+                    <YAxis domain={[0, 5]} tick={{ fontSize: 12 }} stroke="var(--muted-foreground)" />
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey="calorao" name="Calorão" stroke="hsl(var(--chart-1, 12 70% 55%))" strokeWidth={2} />
-                    <Line type="monotone" dataKey="sono" name="Sono" strokeWidth={2} />
-                    <Line type="monotone" dataKey="humor" name="Humor" strokeWidth={2} />
-                    <Line type="monotone" dataKey="energia" name="Energia" strokeWidth={2} />
+                    <Line type="monotone" dataKey="calorao" name="Calorão" stroke="var(--chart-1)" strokeWidth={2} dot={false} />
+                    <Line type="monotone" dataKey="sono" name="Sono" stroke="var(--chart-2)" strokeWidth={2} dot={false} />
+                    <Line type="monotone" dataKey="humor" name="Humor" stroke="var(--chart-4)" strokeWidth={2} dot={false} />
+                    <Line type="monotone" dataKey="energia" name="Energia" stroke="var(--chart-3)" strokeWidth={2} dot={false} />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
