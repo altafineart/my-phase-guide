@@ -553,4 +553,4 @@ export const SECOES: { id: SecaoId; titulo: string }[] = [
   { id: "intimidade", titulo: "Saúde sexual e vida íntima" },
   { id: "mental", titulo: "Humor e saúde mental" },
   { id: "cuidado", titulo: "Cuidado e acompanhamento" },
-];v
+];
