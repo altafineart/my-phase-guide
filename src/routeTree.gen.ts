@@ -18,6 +18,7 @@ import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedAppDiarioRouteImport } from './routes/_authenticated/app.diario'
 import { Route as AuthenticatedAppHistoricoRouteImport } from './routes/_authenticated/app.historico'
 import { Route as AuthenticatedAppRelatorioRouteImport } from './routes/_authenticated/app.relatorio'
+import { Route as ApiPublicKiwifyWebhookRouteImport } from './routes/api/public/kiwify-webhook'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -65,6 +66,11 @@ const AuthenticatedAppRelatorioRoute =
     path: '/relatorio',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const ApiPublicKiwifyWebhookRoute = ApiPublicKiwifyWebhookRouteImport.update({
+  id: '/api/public/kiwify-webhook',
+  path: '/api/public/kiwify-webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -74,6 +80,7 @@ export interface FileRoutesByFullPath {
   '/app/diario': typeof AuthenticatedAppDiarioRoute
   '/app/historico': typeof AuthenticatedAppHistoricoRoute
   '/app/relatorio': typeof AuthenticatedAppRelatorioRoute
+  '/api/public/kiwify-webhook': typeof ApiPublicKiwifyWebhookRoute
   '/app/': typeof AuthenticatedAppIndexRoute
 }
 export interface FileRoutesByTo {
@@ -83,6 +90,7 @@ export interface FileRoutesByTo {
   '/app/diario': typeof AuthenticatedAppDiarioRoute
   '/app/historico': typeof AuthenticatedAppHistoricoRoute
   '/app/relatorio': typeof AuthenticatedAppRelatorioRoute
+  '/api/public/kiwify-webhook': typeof ApiPublicKiwifyWebhookRoute
   '/app': typeof AuthenticatedAppIndexRoute
 }
 export interface FileRoutesById {
@@ -95,6 +103,7 @@ export interface FileRoutesById {
   '/_authenticated/app/diario': typeof AuthenticatedAppDiarioRoute
   '/_authenticated/app/historico': typeof AuthenticatedAppHistoricoRoute
   '/_authenticated/app/relatorio': typeof AuthenticatedAppRelatorioRoute
+  '/api/public/kiwify-webhook': typeof ApiPublicKiwifyWebhookRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
 }
 export interface FileRouteTypes {
@@ -107,6 +116,7 @@ export interface FileRouteTypes {
     | '/app/diario'
     | '/app/historico'
     | '/app/relatorio'
+    | '/api/public/kiwify-webhook'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -116,6 +126,7 @@ export interface FileRouteTypes {
     | '/app/diario'
     | '/app/historico'
     | '/app/relatorio'
+    | '/api/public/kiwify-webhook'
     | '/app'
   id:
     | '__root__'
@@ -127,6 +138,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/diario'
     | '/_authenticated/app/historico'
     | '/_authenticated/app/relatorio'
+    | '/api/public/kiwify-webhook'
     | '/_authenticated/app/'
   fileRoutesById: FileRoutesById
 }
@@ -134,6 +146,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   EntrarRoute: typeof EntrarRoute
+  ApiPublicKiwifyWebhookRoute: typeof ApiPublicKiwifyWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -201,6 +214,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppRelatorioRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/api/public/kiwify-webhook': {
+      id: '/api/public/kiwify-webhook'
+      path: '/api/public/kiwify-webhook'
+      fullPath: '/api/public/kiwify-webhook'
+      preLoaderRoute: typeof ApiPublicKiwifyWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -238,6 +258,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   EntrarRoute: EntrarRoute,
+  ApiPublicKiwifyWebhookRoute: ApiPublicKiwifyWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
