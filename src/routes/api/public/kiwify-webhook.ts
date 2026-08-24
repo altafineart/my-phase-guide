@@ -39,7 +39,7 @@ export const Route = createFileRoute("/api/public/kiwify-webhook")({
           return new Response("Unauthorized", { status: 401 });
         }
 
-        let body: unknown;
+        let body: any;
         try {
           body = await request.json();
         } catch {
@@ -48,30 +48,28 @@ export const Route = createFileRoute("/api/public/kiwify-webhook")({
 
         console.log("kiwify-webhook payload:", JSON.stringify(body));
 
-        const typedBody = body as Record<string, unknown> | undefined;
-
         const email = pick(
-          (typedBody?.Customer as Record<string, unknown>)?.email,
-          (typedBody?.customer as Record<string, unknown>)?.email,
-          (typedBody?.data as Record<string, unknown>)?.Customer?.email,
-          (typedBody?.data as Record<string, unknown>)?.customer?.email,
-          typedBody?.buyer_email,
+          body?.["Customer"]?.["email"],
+          body?.["customer"]?.["email"],
+          body?.["data"]?.["Customer"]?.["email"],
+          body?.["data"]?.["customer"]?.["email"],
+          body?.["buyer_email"],
         );
         const fullName = pick(
-          (typedBody?.Customer as Record<string, unknown>)?.full_name,
-          (typedBody?.customer as Record<string, unknown>)?.full_name,
-          (typedBody?.data as Record<string, unknown>)?.Customer?.full_name,
-          (typedBody?.data as Record<string, unknown>)?.customer?.full_name,
+          body?.["Customer"]?.["full_name"],
+          body?.["customer"]?.["full_name"],
+          body?.["data"]?.["Customer"]?.["full_name"],
+          body?.["data"]?.["customer"]?.["full_name"],
         );
         const orderId = pick(
-          typedBody?.order_id,
-          (typedBody?.data as Record<string, unknown>)?.order_id,
-          (typedBody?.order as Record<string, unknown>)?.id,
+          body?.["order_id"],
+          body?.["data"]?.["order_id"],
+          body?.["order"]?.["id"],
         );
         const orderStatus = pick(
-          typedBody?.order_status,
-          (typedBody?.data as Record<string, unknown>)?.order_status,
-          typedBody?.webhook_event_type,
+          body?.["order_status"],
+          body?.["data"]?.["order_status"],
+          body?.["webhook_event_type"],
         );
 
         if (!email) {
@@ -94,10 +92,17 @@ export const Route = createFileRoute("/api/public/kiwify-webhook")({
 
         let userId: string | undefined;
 
-        const { data: invited, error: inviteError } = await supabaseAdmin.auth.admin.inviteUserByEmail(email, {
-          data: fullName ? { full_name: fullName } : undefined,
+        const inviteOptions: { data?: object; redirectTo: string } = {
           redirectTo: APP_REDIRECT_URL,
-        });
+        };
+        if (fullName) {
+          inviteOptions.data = { full_name: fullName };
+        }
+
+        const { data: invited, error: inviteError } = await supabaseAdmin.auth.admin.inviteUserByEmail(
+          email,
+          inviteOptions,
+        );
 
         if (invited?.user?.id) {
           userId = invited.user.id;
