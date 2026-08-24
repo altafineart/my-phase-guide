@@ -1,5 +1,5 @@
 import { createFileRoute, Link, Outlet, useNavigate } from "@tanstack/react-router";
-import { BookOpen, LineChart, Home, LogOut } from "lucide-react";
+import { BookOpen, LineChart, Home, History, LogOut } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 
@@ -11,6 +11,7 @@ const NAV = [
   { to: "/app", rotulo: "Início", icone: Home, exact: true },
   { to: "/app/relatorio", rotulo: "Relatório", icone: BookOpen, exact: false },
   { to: "/app/diario", rotulo: "Diário", icone: LineChart, exact: false },
+  { to: "/app/historico", rotulo: "Histórico", icone: History, exact: false },
 ] as const;
 
 function AppLayout() {
