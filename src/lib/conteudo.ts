@@ -12,6 +12,7 @@ import imgAlimentacao from "@/assets/secao-alimentacao.jpg";
 import imgOssos from "@/assets/secao-ossos.jpg";
 import imgIntimidade from "@/assets/secao-intimidade.jpg";
 import imgMental from "@/assets/secao-mental.jpg";
+import type { Fase } from "./menopausa";
 
 export type SecaoId =
   | "acontecendo"
@@ -31,6 +32,14 @@ export type Bloco = {
   paragrafos: string[];
   lista?: string[];
   imagem?: string;
+  /**
+   * Nuance por fase para blocos de sintoma: como ESSE sintoma específico costuma
+   * se comportar em cada fase (aparece de forma diferente, mais intenso, mais
+   * constante etc.). Injetado pelo relatorio.ts após os parágrafos principais,
+   * só quando a usuária tem a fase correspondente. Mantém o texto do e-book
+   * como base única e evita duplicar blocos inteiros por combinação fase×sintoma.
+   */
+  porFase?: Partial<Record<Fase, string>>;
 };
 
 export const BLOCOS: Bloco[] = [
@@ -159,6 +168,14 @@ export const BLOCOS: Bloco[] = [
       "Roupas em camadas, tecidos leves e ambiente arejado à noite.",
       "Em casos intensos, a terapia de reposição hormonal pode ser considerada com avaliação médica individual.",
     ],
+    porFase: {
+      perimenopausa:
+        "Na sua fase atual, a perimenopausa, os calorões costumam ser mais imprevisíveis do que intensos — aparecem e somem sem um padrão claro, porque o estrogênio ainda está oscilando, não baixo de forma estável. Registrar no diário ajuda a começar a enxergar algum padrão.",
+      menopausa:
+        "Na sua fase atual, a menopausa, os calorões tendem a ser mais frequentes e intensos para a maioria das mulheres — costuma ser o período de pico desse sintoma, já que o estrogênio está nos níveis mais baixos.",
+      pos_menopausa:
+        "Na sua fase atual, a pós-menopausa, os calorões costumam perder força aos poucos, mas em algumas mulheres continuam por vários anos. Se ainda incomodam bastante nessa fase, vale conversar com sua médica sobre outras formas de manejo.",
+    },
   },
   {
     id: "sintoma-insonia",
@@ -175,6 +192,14 @@ export const BLOCOS: Bloco[] = [
       "Rotina regular de exercício, mas não perto da hora de dormir.",
       "Reduzir cafeína e álcool, principalmente no fim da tarde.",
     ],
+    porFase: {
+      perimenopausa:
+        "Na sua fase atual, a perimenopausa, a insônia costuma estar ligada à própria oscilação hormonal, não só aos suores noturnos — o sono pode ficar mais leve e picado mesmo em noites sem calorão.",
+      menopausa:
+        "Na sua fase atual, a menopausa, os suores noturnos frequentes tendem a ser a causa mais direta das interrupções do sono — cuidar dos calorões noturnos costuma trazer bastante melhora para o sono nessa fase.",
+      pos_menopausa:
+        "Na sua fase atual, a pós-menopausa, mesmo quando os suores noturnos diminuem, o sono pode continuar mais frágil — outros fatores, como rotina, ansiedade e a própria idade, passam a pesar mais do que o hormônio isoladamente.",
+    },
   },
   {
     id: "sintoma-humor",
@@ -191,6 +216,14 @@ export const BLOCOS: Bloco[] = [
       "Meditação, respiração consciente e atenção plena.",
       "Rede de apoio: conversar com outras mulheres na mesma fase, grupos ou terapia.",
     ],
+    porFase: {
+      perimenopausa:
+        "Na sua fase atual, a perimenopausa, as oscilações de humor tendem a ser mais abruptas, acompanhando as mesmas flutuações hormonais que deixam o ciclo menstrual irregular — dias bem diferentes um do outro são comuns aqui.",
+      menopausa:
+        "Na sua fase atual, a menopausa, com o estrogênio estabilizado em níveis baixos, o humor tende a ficar mais constante (ainda que mais vulnerável) do que instável — irritabilidade ou ansiedade persistentes merecem mais atenção do que picos isolados.",
+      pos_menopausa:
+        "Na sua fase atual, a pós-menopausa, muitas mulheres relatam mais estabilidade emocional do que sentiam durante a transição. Se tristeza ou ansiedade persistente aparecem só agora, vale investigar outras causas além do hormonal com sua médica.",
+    },
   },
   {
     id: "sintoma-dor-articular",
@@ -206,6 +239,14 @@ export const BLOCOS: Bloco[] = [
       "Ômega-3 para reduzir inflamação.",
       "Conversar com sua médica sobre cálcio, magnésio e vitamina D.",
     ],
+    porFase: {
+      perimenopausa:
+        "Na sua fase atual, a perimenopausa, as dores costumam ser mais esporádicas, indo e vindo conforme o estrogênio oscila.",
+      menopausa:
+        "Na sua fase atual, a menopausa, com o estrogênio estavelmente mais baixo, as dores articulares tendem a ficar mais constantes — muitas mulheres notam esse sintoma se firmar justamente nessa fase.",
+      pos_menopausa:
+        "Na sua fase atual, a pós-menopausa, dor articular persistente pode se somar ao desgaste natural das articulações com a idade. Vale diferenciar com avaliação médica o que é hormonal do que tem outras causas, como osteoartrose.",
+    },
   },
   {
     id: "sintoma-ressecamento",
@@ -221,6 +262,14 @@ export const BLOCOS: Bloco[] = [
       "Comunicação aberta sobre sentimentos e preocupações.",
       "Explorar novas formas de intimidade, sem pressão.",
     ],
+    porFase: {
+      perimenopausa:
+        "Na sua fase atual, a perimenopausa, o ressecamento costuma ser leve e ir e vir, muitas vezes chegando antes de outros sintomas mais notados.",
+      menopausa:
+        "Na sua fase atual, a menopausa, esse sintoma tende a ficar mais perceptível e constante, à medida que a mucosa vaginal se adapta a níveis mais baixos de estrogênio.",
+      pos_menopausa:
+        "Na sua fase atual, a pós-menopausa, o ressecamento costuma não melhorar sozinho com o tempo — diferente de sintomas como o calorão, ele tende a se manter ou piorar aos poucos sem tratamento, porque depende do estrogênio continuar baixo, não de uma fase de adaptação temporária. Por isso costuma valer a pena tratar diretamente em vez de só esperar passar.",
+    },
   },
   {
     id: "sintoma-ganho-peso",
@@ -237,6 +286,14 @@ export const BLOCOS: Bloco[] = [
       "Exercício de resistência combinado com aeróbico.",
       "Boa hidratação ao longo do dia.",
     ],
+    porFase: {
+      perimenopausa:
+        "Na sua fase atual, a perimenopausa, as mudanças no peso costumam ser mais sutis, muitas vezes se misturando com um metabolismo que já vem em transição pela idade.",
+      menopausa:
+        "Na sua fase atual, a menopausa, a queda mais acentuada do estrogênio tende a acelerar o acúmulo de gordura abdominal, mesmo sem grandes mudanças na rotina — é um período em que ajustar alimentação e exercício costuma trazer diferença mais visível.",
+      pos_menopausa:
+        "Na sua fase atual, a pós-menopausa, o metabolismo mais lento se soma ao envelhecimento natural. Manter massa muscular com exercício de resistência continua sendo uma das estratégias mais eficazes para sustentar o metabolismo nessa fase.",
+    },
   },
 
   /* ---------------------------------------------------------------- */
@@ -496,4 +553,4 @@ export const SECOES: { id: SecaoId; titulo: string }[] = [
   { id: "intimidade", titulo: "Saúde sexual e vida íntima" },
   { id: "mental", titulo: "Humor e saúde mental" },
   { id: "cuidado", titulo: "Cuidado e acompanhamento" },
-];
+];v
