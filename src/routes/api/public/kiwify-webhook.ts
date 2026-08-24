@@ -80,6 +80,41 @@ export const Route = createFileRoute("/api/public/kiwify-webhook")({
           });
         }
 
+        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+        if (orderStatus && /refund|reembols|chargeback|estorn/i.test(orderStatus)) {
+          const { data: existingProfile, error: profileError } = await supabaseAdmin
+            .from("profiles")
+            .select("id")
+            .eq("email", email)
+            .maybeSingle();
+
+          if (profileError) {
+            console.error("kiwify-webhook: erro buscando profile para revogação", profileError);
+          }
+
+          if (existingProfile?.id) {
+            const { error: revokeError } = await supabaseAdmin
+              .from("entitlements")
+              .update({ ativo: false })
+              .eq("user_id", existingProfile.id)
+              .eq("produto", PRODUTO);
+
+            if (revokeError) {
+              console.error("kiwify-webhook: erro revogando entitlement", revokeError);
+            } else {
+              console.log(`kiwify-webhook: acesso revogado para ${email} (status "${orderStatus}")`);
+            }
+          } else {
+            console.log(`kiwify-webhook: reembolso/chargeback para e-mail sem conta: ${email}`);
+          }
+
+          return new Response(JSON.stringify({ ok: true, revoked: true }), {
+            status: 200,
+            headers: { "Content-Type": "application/json" },
+          });
+        }
+
         if (orderStatus && !/paid|approved|aprovad/i.test(orderStatus)) {
           console.log(`kiwify-webhook: ignorando evento com status "${orderStatus}"`);
           return new Response(JSON.stringify({ ok: true, ignored: true }), {
@@ -87,8 +122,6 @@ export const Route = createFileRoute("/api/public/kiwify-webhook")({
             headers: { "Content-Type": "application/json" },
           });
         }
-
-        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
         let userId: string | undefined;
 
