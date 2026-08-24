@@ -1,6 +1,6 @@
 import { BLOCOS, SECOES, type Bloco, type SecaoId } from "./conteudo";
 import { escapeHtml } from "./exportar";
-import { rotuloFase } from "./menopausa";
+import { rotuloFase, type Fase } from "./menopausa";
 
 export type PerfilRelatorio = {
   idade?: number | null;
@@ -25,7 +25,12 @@ export function montarRelatorio(perfil: PerfilRelatorio): SecaoRelatorio[] {
   if (perfil.fase_menopausa) tags.add(`fase_${perfil.fase_menopausa}`);
   for (const s of sintomasDoPerfil(perfil)) tags.add(`sintoma_${s}`);
 
-  const ativos = BLOCOS.filter((b) => b.sempre || b.tags.some((t) => tags.has(t)));
+  const fase = perfil.fase_menopausa as Fase | null | undefined;
+
+  const ativos = BLOCOS.filter((b) => b.sempre || b.tags.some((t) => tags.has(t))).map((b) => {
+    const nuance = fase && b.porFase ? b.porFase[fase] : undefined;
+    return nuance ? { ...b, paragrafos: [...b.paragrafos, nuance] } : b;
+  });
 
   return SECOES.map((secao) => ({
     ...secao,
