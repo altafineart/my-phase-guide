@@ -16,6 +16,7 @@ import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/ap
 import { Route as AuthenticatedComecarRouteImport } from './routes/_authenticated/comecar'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
 import { Route as AuthenticatedAppDiarioRouteImport } from './routes/_authenticated/app.diario'
+import { Route as AuthenticatedAppHistoricoRouteImport } from './routes/_authenticated/app.historico'
 import { Route as AuthenticatedAppRelatorioRouteImport } from './routes/_authenticated/app.relatorio'
 
 const IndexRoute = IndexRouteImport.update({
@@ -52,6 +53,12 @@ const AuthenticatedAppDiarioRoute = AuthenticatedAppDiarioRouteImport.update({
   path: '/diario',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
+const AuthenticatedAppHistoricoRoute =
+  AuthenticatedAppHistoricoRouteImport.update({
+    id: '/historico',
+    path: '/historico',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 const AuthenticatedAppRelatorioRoute =
   AuthenticatedAppRelatorioRouteImport.update({
     id: '/relatorio',
@@ -65,6 +72,7 @@ export interface FileRoutesByFullPath {
   '/app': typeof AuthenticatedAppRouteWithChildren
   '/comecar': typeof AuthenticatedComecarRoute
   '/app/diario': typeof AuthenticatedAppDiarioRoute
+  '/app/historico': typeof AuthenticatedAppHistoricoRoute
   '/app/relatorio': typeof AuthenticatedAppRelatorioRoute
   '/app/': typeof AuthenticatedAppIndexRoute
 }
@@ -73,6 +81,7 @@ export interface FileRoutesByTo {
   '/entrar': typeof EntrarRoute
   '/comecar': typeof AuthenticatedComecarRoute
   '/app/diario': typeof AuthenticatedAppDiarioRoute
+  '/app/historico': typeof AuthenticatedAppHistoricoRoute
   '/app/relatorio': typeof AuthenticatedAppRelatorioRoute
   '/app': typeof AuthenticatedAppIndexRoute
 }
@@ -84,6 +93,7 @@ export interface FileRoutesById {
   '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
   '/_authenticated/comecar': typeof AuthenticatedComecarRoute
   '/_authenticated/app/diario': typeof AuthenticatedAppDiarioRoute
+  '/_authenticated/app/historico': typeof AuthenticatedAppHistoricoRoute
   '/_authenticated/app/relatorio': typeof AuthenticatedAppRelatorioRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
 }
@@ -95,10 +105,18 @@ export interface FileRouteTypes {
     | '/app'
     | '/comecar'
     | '/app/diario'
+    | '/app/historico'
     | '/app/relatorio'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/entrar' | '/comecar' | '/app/diario' | '/app/relatorio' | '/app'
+  to:
+    | '/'
+    | '/entrar'
+    | '/comecar'
+    | '/app/diario'
+    | '/app/historico'
+    | '/app/relatorio'
+    | '/app'
   id:
     | '__root__'
     | '/'
@@ -107,6 +125,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app'
     | '/_authenticated/comecar'
     | '/_authenticated/app/diario'
+    | '/_authenticated/app/historico'
     | '/_authenticated/app/relatorio'
     | '/_authenticated/app/'
   fileRoutesById: FileRoutesById
@@ -168,6 +187,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppDiarioRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/app/historico': {
+      id: '/_authenticated/app/historico'
+      path: '/historico'
+      fullPath: '/app/historico'
+      preLoaderRoute: typeof AuthenticatedAppHistoricoRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
     '/_authenticated/app/relatorio': {
       id: '/_authenticated/app/relatorio'
       path: '/relatorio'
@@ -180,12 +206,14 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAppRouteChildren {
   AuthenticatedAppDiarioRoute: typeof AuthenticatedAppDiarioRoute
+  AuthenticatedAppHistoricoRoute: typeof AuthenticatedAppHistoricoRoute
   AuthenticatedAppRelatorioRoute: typeof AuthenticatedAppRelatorioRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
 }
 
 const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppDiarioRoute: AuthenticatedAppDiarioRoute,
+  AuthenticatedAppHistoricoRoute: AuthenticatedAppHistoricoRoute,
   AuthenticatedAppRelatorioRoute: AuthenticatedAppRelatorioRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
 }
