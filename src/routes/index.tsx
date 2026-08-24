@@ -9,7 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 // Link real do checkout do produto "Guia de Menopausa" na Kiwify (R$67, pagamento único).
-const CHECKOUT_KIWIFY = "https://pay.kiwify.com.br/RExJcu2";
+const CHECKOUT_KIWIFY = "https://pay.kiwify.com.br/lBGhZU5";
 
 const PRECO = "R$ 67";
 
