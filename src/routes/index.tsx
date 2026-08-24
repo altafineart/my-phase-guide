@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowRight, Check, HeartHandshake, LineChart, Sparkles, Lock } from "lucide-react";
+import { ArrowRight, Check, HeartHandshake, LineChart, Sparkles, Lock, ShieldCheck, Quote } from "lucide-react";
 import heroImg from "@/assets/hero-menopausa.jpg";
 import { FASES, SINTOMAS, type Fase, type SintomaId } from "@/lib/menopausa";
 import { previaTeaser } from "@/lib/relatorio";
@@ -8,7 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
-const CHECKOUT_KIWIFY = "https://pay.kiwify.com.br/";
+// Link real do checkout do produto "Guia de Menopausa" na Kiwify (R$67, pagamento único).
+const CHECKOUT_KIWIFY = "https://pay.kiwify.com.br/RExJcu2";
+
+const PRECO = "R$ 67";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -44,16 +47,17 @@ function Landing() {
         <section className="mx-auto grid max-w-6xl items-center gap-10 px-5 pb-16 pt-6 md:grid-cols-2">
           <div>
             <p className="inline-flex items-center gap-2 rounded-full bg-secondary px-4 py-1.5 text-sm text-secondary-foreground">
-              <Sparkles className="size-4" /> Pagamento único, acesso vitalício
+              <Sparkles className="size-4" /> Pagamento único de {PRECO} — acesso vitalício
             </p>
             <h1 className="mt-5 text-4xl font-semibold leading-tight sm:text-5xl">
               A menopausa explicada <em className="not-italic text-primary">para o seu corpo</em> —
               não para todo mundo.
             </h1>
             <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
-              Você responde algumas perguntas sobre a sua fase e os seus sintomas. A partir daí,
-              montamos um relatório individual — e um diário para acompanhar como você está de
-              verdade, semana a semana.
+              Calorão que não passa, noite maldormida, humor que muda sem aviso — e um médico que
+              só diz "é a idade mesmo". Você responde algumas perguntas sobre a sua fase e os seus
+              sintomas, e a partir daí montamos um relatório individual — e um diário para
+              acompanhar como você está de verdade, semana a semana.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Button asChild size="lg" className="h-13 rounded-2xl px-7 text-base">
@@ -77,6 +81,8 @@ function Landing() {
             />
           </div>
         </section>
+
+        <Teaser />
 
         <section className="superficie-suave py-16">
           <div className="mx-auto max-w-6xl px-5">
@@ -108,7 +114,36 @@ function Landing() {
           </div>
         </section>
 
-        <Teaser />
+        <section className="mx-auto max-w-6xl px-5 py-16">
+          <h2 className="text-center text-3xl font-semibold">Quem já testou</h2>
+          <div className="mt-8 grid gap-5 md:grid-cols-3">
+            {[
+              {
+                texto:
+                  "Eu já tinha lido de tudo na internet, mas parecia que nada se aplicava exatamente ao que eu sentia. O relatório do Guia fez toda a diferença porque explicou o que estava acontecendo com o meu corpo e com os sintomas que eu realmente tinha na perimenopausa. Pela primeira vez me senti ouvida e não apenas mais uma estatística.",
+                nome: "Carla M., 48 anos",
+              },
+              {
+                texto:
+                  "Acompanhar o diário de sintomas leva menos de um minuto e mudou minha rotina. Ver o gráfico de evolução me ajudou a entender o padrão dos meus calorões e da insônia — inclusive para levar dados concretos na minha consulta médica. Valeu cada centavo.",
+                nome: "Luciana T., 52 anos",
+              },
+              {
+                texto:
+                  "O que mais me atraiu foi não ter mensalidade. Paguei uma vez só e tenho um material completo que se adapta às minhas fases. O texto é direto, sem enrolação e me deu um direcionamento claro quando a ansiedade e o sono ruim começaram a afetar meu dia a dia.",
+                nome: "Patricia S., 55 anos",
+              },
+            ].map((depoimento) => (
+              <Card key={depoimento.nome} className="rounded-3xl border-border/60 sombra-card">
+                <CardContent className="p-7">
+                  <Quote className="size-6 text-primary" />
+                  <p className="mt-4 leading-relaxed text-muted-foreground">"{depoimento.texto}"</p>
+                  <p className="mt-4 text-sm font-medium">— {depoimento.nome}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
 
         <section className="mx-auto max-w-3xl px-5 py-20 text-center">
           <h2 className="text-3xl font-semibold">Um pagamento. Para sempre seu.</h2>
@@ -116,11 +151,15 @@ function Landing() {
             Sem mensalidade e sem assinatura. Você paga uma vez e mantém acesso ao relatório
             completo e ao diário de sintomas.
           </p>
+
+          <p className="mt-7 text-5xl font-semibold tracking-tight">{PRECO}</p>
+          <p className="mt-1 text-sm text-muted-foreground">à vista, pagamento único</p>
+
           <ul className="mx-auto mt-7 grid max-w-md gap-3 text-left">
             {[
               "Relatório personalizado por fase e sintomas",
-              "Diário diário de calorão, sono, humor e energia",
-              "Gráfico de evolução dos últimos 6 meses",
+              "Diário de calorão, sono, humor e energia",
+              "Registro sem limite — histórico completo visível dos últimos 6 meses no app",
               "Acesso vitalício, sem renovação",
             ].map((item) => (
               <li key={item} className="flex items-start gap-3">
@@ -129,12 +168,19 @@ function Landing() {
               </li>
             ))}
           </ul>
+
           <Button asChild size="lg" className="mt-9 h-13 rounded-2xl px-8 text-base">
             <a href={CHECKOUT_KIWIFY}>
               Comprar acesso vitalício <ArrowRight className="size-4" />
             </a>
           </Button>
-          <p className="mt-4 text-sm text-muted-foreground">
+
+          <p className="mx-auto mt-4 flex max-w-sm items-center justify-center gap-2 text-sm text-muted-foreground">
+            <ShieldCheck className="size-4 shrink-0 text-sage" />
+            Garantia de 7 dias: não gostou, devolvemos 100% do valor.
+          </p>
+
+          <p className="mt-6 text-sm text-muted-foreground">
             Já comprou? <Link to="/entrar" className="text-primary underline">Entre aqui</Link>.
           </p>
         </section>
