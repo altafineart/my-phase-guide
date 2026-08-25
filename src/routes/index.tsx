@@ -13,6 +13,40 @@ const CHECKOUT_KIWIFY = "https://pay.kiwify.com.br/lBGhZU5";
 
 const PRECO = "R$ 67";
 
+// Monta a URL de checkout com UTM diferente por local do botão, para separar no relatório
+// da Kiwify (e em qualquer analytics futuro) qual CTA está gerando o clique.
+function checkoutUrl(utmContent: "hero" | "pricing" | "teaser") {
+  const params = new URLSearchParams({
+    utm_source: "site",
+    utm_medium: "cta",
+    utm_campaign: "landing_page",
+    utm_content: utmContent,
+  });
+  return `${CHECKOUT_KIWIFY}?${params.toString()}`;
+}
+
+// Dispara o evento do Meta Pixel no clique do botão de compra, antes do redirect pra Kiwify.
+function trackInitiateCheckout(utmContent: string) {
+  if (typeof window === "undefined") return;
+  const fbq = (window as unknown as { fbq?: (...args: unknown[]) => void }).fbq;
+  if (typeof fbq !== "function") return;
+  fbq("track", "InitiateCheckout", {
+    content_name: "guia_menopausa",
+    content_category: utmContent,
+    value: 67,
+    currency: "BRL",
+  });
+}
+
+// Dispara um evento customizado para o botão de prévia grátis (não vai pro checkout,
+// mas ajuda a comparar intenção de compra direta vs. exploração antes de decidir).
+function trackViewPreview() {
+  if (typeof window === "undefined") return;
+  const fbq = (window as unknown as { fbq?: (...args: unknown[]) => void }).fbq;
+  if (typeof fbq !== "function") return;
+  fbq("trackCustom", "ViewPreviewClick");
+}
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -61,12 +95,12 @@ function Landing() {
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Button asChild size="lg" className="h-13 rounded-2xl px-7 text-base">
-                <a href={CHECKOUT_KIWIFY}>
+                <a href={checkoutUrl("hero")} onClick={() => trackInitiateCheckout("hero")}>
                   Quero meu guia <ArrowRight className="size-4" />
                 </a>
               </Button>
               <Button asChild size="lg" variant="outline" className="h-13 rounded-2xl px-7 text-base">
-                <a href="#teaser">Ver uma prévia grátis</a>
+                <a href="#teaser" onClick={trackViewPreview}>Ver uma prévia grátis</a>
               </Button>
             </div>
           </div>
@@ -170,7 +204,7 @@ function Landing() {
           </ul>
 
           <Button asChild size="lg" className="mt-9 h-13 rounded-2xl px-8 text-base">
-            <a href={CHECKOUT_KIWIFY}>
+            <a href={checkoutUrl("pricing")} onClick={() => trackInitiateCheckout("pricing")}>
               Comprar acesso vitalício <ArrowRight className="size-4" />
             </a>
           </Button>
@@ -271,7 +305,9 @@ function Teaser() {
                 </span>
               </div>
               <Button asChild size="lg" className="h-12 w-full rounded-2xl">
-                <a href={CHECKOUT_KIWIFY}>Liberar meu relatório completo</a>
+                <a href={checkoutUrl("teaser")} onClick={() => trackInitiateCheckout("teaser")}>
+                  Liberar meu relatório completo
+                </a>
               </Button>
             </div>
           )}
