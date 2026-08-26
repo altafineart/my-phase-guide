@@ -8,10 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
-// Link real do checkout do produto "Guia de Menopausa" na Kiwify (R$47, pagamento único).
+// Link real do checkout do produto "Guia de Menopausa" na Kiwify (R$27, pagamento único).
 const CHECKOUT_KIWIFY = "https://pay.kiwify.com.br/lBGhZU5";
 
-const PRECO = "R$ 47";
+const PRECO = "R$ 27";
 
 // Monta a URL de checkout com UTM diferente por local do botão, para separar no relatório
 // da Kiwify (e em qualquer analytics futuro) qual CTA está gerando o clique.
@@ -33,7 +33,7 @@ function trackInitiateCheckout(utmContent: string) {
   fbq("track", "InitiateCheckout", {
     content_name: "guia_menopausa",
     content_category: utmContent,
-    value: 47,
+    value: 27,
     currency: "BRL",
   });
 }
@@ -81,7 +81,7 @@ function Landing() {
         <section className="mx-auto grid max-w-6xl items-center gap-10 px-5 pb-16 pt-6 md:grid-cols-2">
           <div>
             <p className="inline-flex items-center gap-2 rounded-full bg-secondary px-4 py-1.5 text-sm text-secondary-foreground">
-              <Sparkles className="size-4" /> Pagamento único de {PRECO} — acesso vitalício
+              <Sparkles className="size-4" /> Pagamento único de {PRECO} — acesso vitalício ⏰ Oferta válida por 7 dias
             </p>
             <h1 className="mt-5 text-4xl font-semibold leading-tight sm:text-5xl">
               A menopausa explicada <em className="not-italic text-primary">para o seu corpo</em> —
@@ -188,6 +188,7 @@ function Landing() {
 
           <p className="mt-7 text-5xl font-semibold tracking-tight">{PRECO}</p>
           <p className="mt-1 text-sm text-muted-foreground">à vista, pagamento único</p>
+          <p className="mt-1 text-sm font-medium text-destructive">⏰ Oferta válida por 7 dias</p>
 
           <ul className="mx-auto mt-7 grid max-w-md gap-3 text-left">
             {[
