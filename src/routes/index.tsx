@@ -188,6 +188,7 @@ function Landing() {
 
           <p className="mt-7 text-5xl font-semibold tracking-tight">{PRECO}</p>
           <p className="mt-1 text-sm text-muted-foreground">à vista, pagamento único</p>
+          <p className="mt-1 text-sm font-medium text-destructive">⏰ Oferta válida por 7 dias</p>
 
           <ul className="mx-auto mt-7 grid max-w-md gap-3 text-left">
             {[
