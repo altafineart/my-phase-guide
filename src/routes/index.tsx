@@ -8,10 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
-// Link real do checkout do produto "Guia de Menopausa" na Kiwify (R$47, pagamento único).
+// Link real do checkout do produto "Guia de Menopausa" na Kiwify (R$27, pagamento único).
 const CHECKOUT_KIWIFY = "https://pay.kiwify.com.br/lBGhZU5";
 
-const PRECO = "R$ 47";
+const PRECO = "R$ 27";
 
 // Monta a URL de checkout com UTM diferente por local do botão, para separar no relatório
 // da Kiwify (e em qualquer analytics futuro) qual CTA está gerando o clique.
