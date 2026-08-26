@@ -8,10 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
-// Link real do checkout do produto "Guia de Menopausa" na Kiwify (R$67, pagamento único).
+// Link real do checkout do produto "Guia de Menopausa" na Kiwify (R$47, pagamento único).
 const CHECKOUT_KIWIFY = "https://pay.kiwify.com.br/lBGhZU5";
 
-const PRECO = "R$ 67";
+const PRECO = "R$ 47";
 
 // Monta a URL de checkout com UTM diferente por local do botão, para separar no relatório
 // da Kiwify (e em qualquer analytics futuro) qual CTA está gerando o clique.
@@ -33,7 +33,7 @@ function trackInitiateCheckout(utmContent: string) {
   fbq("track", "InitiateCheckout", {
     content_name: "guia_menopausa",
     content_category: utmContent,
-    value: 67,
+    value: 47,
     currency: "BRL",
   });
 }
