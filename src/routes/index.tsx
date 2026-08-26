@@ -33,7 +33,7 @@ function trackInitiateCheckout(utmContent: string) {
   fbq("track", "InitiateCheckout", {
     content_name: "guia_menopausa",
     content_category: utmContent,
-    value: 47,
+    value: 27,
     currency: "BRL",
   });
 }
@@ -81,7 +81,7 @@ function Landing() {
         <section className="mx-auto grid max-w-6xl items-center gap-10 px-5 pb-16 pt-6 md:grid-cols-2">
           <div>
             <p className="inline-flex items-center gap-2 rounded-full bg-secondary px-4 py-1.5 text-sm text-secondary-foreground">
-              <Sparkles className="size-4" /> Pagamento único de {PRECO} — acesso vitalício
+              <Sparkles className="size-4" /> Pagamento único de {PRECO} — acesso vitalício ⏰ Oferta válida por 7 dias
             </p>
             <h1 className="mt-5 text-4xl font-semibold leading-tight sm:text-5xl">
               A menopausa explicada <em className="not-italic text-primary">para o seu corpo</em> —
