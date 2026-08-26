@@ -2,6 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { ArrowRight, Check, HeartHandshake, LineChart, Sparkles, Lock, ShieldCheck, Quote } from "lucide-react";
 import heroImg from "@/assets/hero-menopausa.jpg";
+import fotoCarla from "@/assets/depoimento-carla.png.asset.json";
+import fotoLuciana from "@/assets/depoimento-luciana.png.asset.json";
+import fotoPatricia from "@/assets/depoimento-patricia.png.asset.json";
 import { FASES, SINTOMAS, type Fase, type SintomaId } from "@/lib/menopausa";
 import { previaTeaser } from "@/lib/relatorio";
 import { Button } from "@/components/ui/button";
@@ -156,26 +159,40 @@ function Landing() {
                 texto:
                   "Eu já tinha lido de tudo na internet, mas parecia que nada se aplicava exatamente ao que eu sentia. O relatório do Guia fez toda a diferença porque explicou o que estava acontecendo com o meu corpo e com os sintomas que eu realmente tinha na perimenopausa. Pela primeira vez me senti ouvida e não apenas mais uma estatística.",
                 nome: "Carla M., 48 anos",
+                foto: fotoCarla.url,
               },
               {
                 texto:
                   "Acompanhar o diário de sintomas leva menos de um minuto e mudou minha rotina. Ver o gráfico de evolução me ajudou a entender o padrão dos meus calorões e da insônia — inclusive para levar dados concretos na minha consulta médica. Valeu cada centavo.",
                 nome: "Luciana T., 52 anos",
+                foto: fotoLuciana.url,
               },
               {
                 texto:
                   "O que mais me atraiu foi não ter mensalidade. Paguei uma vez só e tenho um material completo que se adapta às minhas fases. O texto é direto, sem enrolação e me deu um direcionamento claro quando a ansiedade e o sono ruim começaram a afetar meu dia a dia.",
                 nome: "Patricia S., 55 anos",
+                foto: fotoPatricia.url,
               },
             ].map((depoimento) => (
               <Card key={depoimento.nome} className="rounded-3xl border-border/60 sombra-card">
                 <CardContent className="p-7">
                   <Quote className="size-6 text-primary" />
                   <p className="mt-4 leading-relaxed text-muted-foreground">"{depoimento.texto}"</p>
-                  <p className="mt-4 text-sm font-medium">— {depoimento.nome}</p>
+                  <div className="mt-5 flex items-center gap-3">
+                    <img
+                      src={depoimento.foto}
+                      alt={`Foto de ${depoimento.nome}`}
+                      loading="lazy"
+                      width={96}
+                      height={96}
+                      className="size-12 shrink-0 rounded-full object-cover"
+                    />
+                    <p className="text-sm font-medium">{depoimento.nome}</p>
+                  </div>
                 </CardContent>
               </Card>
             ))}
+
           </div>
         </section>
 
